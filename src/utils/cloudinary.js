@@ -1,5 +1,5 @@
-import { cloudinary } from "./cloudinary";
-import { fs } from "fs";
+import cloudinary from "cloudinary";
+import fs from "fs";
 
 cloudinary.config({
   cloud_name: process.env.CLOUDNARY_CLOUD_NAME,

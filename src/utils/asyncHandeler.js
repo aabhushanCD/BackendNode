@@ -2,9 +2,9 @@
 
 // export { asyncHandeler };
 
-const asyncHandeler = (fn) => async (req, res, next) => {
+const asyncHandeler = (func) => async (req, res, next) => {
   try {
-    await fn(req, res, next);
+    await func(req, res, next);
   } catch (error) {
     req.status(error.code || 400).json({
       success: false,
