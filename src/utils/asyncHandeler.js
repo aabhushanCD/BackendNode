@@ -12,3 +12,5 @@ const asyncHandeler = (fn) => async (req, res, next) => {
     });
   }
 };
+
+export { asyncHandeler };
