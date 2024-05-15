@@ -40,4 +40,9 @@ const videoSchema = new Schema(
   { timestamps: true }
 );
 
+videoSchema.pre("save",async function(){
+  
+})
+
+
 export const Video = mongoose.model("Video", videoSchema);
