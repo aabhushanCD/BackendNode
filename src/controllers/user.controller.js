@@ -3,7 +3,7 @@ import { ApiError } from "../utils/ApiError.js";
 import { User } from "../models/user.model.js";
 import { ApiResponse } from "../utils/ApiRespose.js";
 import { uploadOnCloudnary } from "../utils/cloudinary.js";
-const registerUser = asyncHandeler(async (req, res) => {
+const registerUser = asyncHandeler(async (req, res,next) => {
   //get user detail
   // validation -not empty
   //check if user already exist : username ,email
@@ -20,7 +20,7 @@ const registerUser = asyncHandeler(async (req, res) => {
   ) {
     throw new ApiError(400, "Please add your Name");
   }
-  const existedUser = User.findOne({
+  const existedUser = await User.findOne({
     $or: [{ userName }, { email }],
   });
 
@@ -31,14 +31,17 @@ const registerUser = asyncHandeler(async (req, res) => {
   const coverImageLocalPath = req.files?.coverImg[0]?.path;
 
   if (!avatarLocalPath) {
-    throw new ApiError(400, "Avatar is required");
+    throw new ApiError(400, "Avatar is required localpath not found");
   }
 
   const avatar = await uploadOnCloudnary(avatarLocalPath);
   const coverImg = await uploadOnCloudnary(coverImageLocalPath);
 
   if (!avatar) {
-    throw new ApiError(400, "Avatar is required");
+  throw new ApiError(
+      400,
+      "Avatar is required This is the error"
+    );
   }
   if (!coverImg) {
     throw new ApiError(400, "coverImage is required");
@@ -60,8 +63,9 @@ const registerUser = asyncHandeler(async (req, res) => {
     throw new ApiError(500, "Something went wrong while registering the user");
   }
 
-  return res.status(201).json(new ApiResponse(200,createdUser,"User registered Successfully"))
-
+  return await res
+    .status(201)
+    .json(new ApiResponse(true, createdUser, "User registered Successfully"));
 });
 
 export { registerUser };
