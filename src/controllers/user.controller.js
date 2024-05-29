@@ -3,7 +3,7 @@ import { ApiError } from "../utils/ApiError.js";
 import { User } from "../models/user.model.js";
 import { ApiResponse } from "../utils/ApiRespose.js";
 import { uploadOnCloudnary } from "../utils/cloudinary.js";
-const registerUser = asyncHandeler(async (req, res,next) => {
+const registerUser = asyncHandeler(async (req, res, next) => {
   //get user detail
   // validation -not empty
   //check if user already exist : username ,email
@@ -38,10 +38,7 @@ const registerUser = asyncHandeler(async (req, res,next) => {
   const coverImg = await uploadOnCloudnary(coverImageLocalPath);
 
   if (!avatar) {
-  throw new ApiError(
-      400,
-      "Avatar is required This is the error"
-    );
+    throw new ApiError(400, "Avatar is required This is the error");
   }
   if (!coverImg) {
     throw new ApiError(400, "coverImage is required");
